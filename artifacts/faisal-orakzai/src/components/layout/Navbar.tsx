@@ -13,6 +13,7 @@ const navLinks = [
   { href: "/journal", label: "Journal" },
   { href: "/inner-circle", label: "Inner Circle" },
   { href: "/contact", label: "Contact" },
+  { href: "/admin", label: "Admin" },
 ];
 
 export function Navbar() {

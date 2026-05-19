@@ -1,120 +1,72 @@
 import { useState } from "react";
 import { PageTransition, FadeIn } from "@/components/PageTransition";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
+import { Shield, TrendingUp, Network } from "lucide-react";
 import heroPortrait2 from "@assets/cb2f6e44-0710-492f-abc7-1c2c8d0bcea3_1779198430336.png";
 
 export default function InnerCircle() {
-  const [open, setOpen] = useState(false);
-  const { toast } = useToast();
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setOpen(false);
-    toast({
-      title: "Request Received",
-      description: "Your application for the Inner Circle has been submitted.",
-      duration: 5000,
-    });
-  };
+    setSubmitted(true);
+  }
 
   return (
     <PageTransition>
-      <div className="relative min-h-screen flex flex-col pt-32 pb-24 px-6 md:px-12 bg-black overflow-hidden">
-        {/* Right side portrait */}
-        <div className="fixed top-0 right-0 w-full md:w-1/2 h-full z-0 opacity-40 pointer-events-none">
-          <img 
-            src={heroPortrait2} 
-            alt="Faisal Orakzai Inner Circle" 
-            className="w-full h-full object-cover object-top"
-            style={{ maskImage: "linear-gradient(to left, black 50%, transparent 100%)", WebkitMaskImage: "linear-gradient(to left, black 50%, transparent 100%)" }}
-          />
+      <div className="bg-[#050505] min-h-screen text-white relative">
+        <div className="fixed inset-0 pointer-events-none opacity-15">
+          <img src={heroPortrait2} className="w-full h-full object-cover object-right" alt="Inner Circle Background" />
         </div>
         
-        <div className="relative z-10 w-full max-w-6xl mx-auto flex-1 flex flex-col justify-center">
-          <FadeIn className="max-w-2xl mb-16">
-            <div className="text-primary text-[10px] tracking-[0.3em] uppercase mb-8 font-bold">
-              INNER CIRCLE
+        <div className="relative z-10 pt-40 pb-20 px-8 lg:px-16 max-w-6xl mx-auto">
+          <FadeIn>
+            <div className="text-[#D4AF37] text-[10px] tracking-[0.3em] uppercase mb-6 font-bold">
+              THE INNER CIRCLE
             </div>
-            
-            <h1 className="text-4xl md:text-[60px] text-white font-bold leading-tight mb-8">
-              This space is not for everyone.
+            <h1 className="font-['Playfair_Display'] text-[72px] leading-none mb-6">
+              Exclusive Access.
             </h1>
-            
-            <p className="text-xl md:text-[22px] text-white/60 leading-relaxed">
-              By invitation only. Built for those who think in systems.
+            <p className="text-white/60 text-[20px] max-w-2xl leading-relaxed mb-20">
+              Strategic alliances, high-level investment opportunities, and the Orakzai 2040 core matrix. Strictly by invitation or vetted application.
             </p>
           </FadeIn>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mb-16">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
             {[
-              "Private Ecosystem", 
-              "Elite Network", 
-              "Future Collaborations"
-            ].map((pillar, i) => (
-              <FadeIn key={pillar} delay={0.2 + (i * 0.1)}>
-                <div className="bg-black/80 backdrop-blur-md border border-primary/40 p-8 h-full flex items-center justify-center text-center transition-colors hover:border-primary">
-                  <h3 className="text-white tracking-widest uppercase text-sm font-medium">
-                    {pillar}
-                  </h3>
-                </div>
+              { icon: Shield, title: "STRATEGIC ALLIANCES", text: "Direct collaboration within the Orakzai ecosystem and aligned ventures." },
+              { icon: TrendingUp, title: "PRIVATE CAPITAL FLOWS", text: "Exclusive insights into RWA deployments, bond structures, and sovereign yield protocols." },
+              { icon: Network, title: "FOUNDER'S NETWORK", text: "Direct connectivity to core leadership, vision, and strategic direction." }
+            ].map((p, i) => (
+              <FadeIn key={i} delay={i * 0.1} className="border-t border-[#D4AF37]/30 pt-6">
+                <p.icon className="w-8 h-8 text-[#D4AF37] mb-6" />
+                <h3 className="font-bold text-white mb-3">{p.title}</h3>
+                <p className="text-white/60 text-sm leading-relaxed">{p.text}</p>
               </FadeIn>
             ))}
           </div>
-          
-          <FadeIn delay={0.6}>
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <button 
-                  className="inline-block border border-primary text-primary px-10 py-4 uppercase tracking-[0.15em] text-sm transition-all duration-300 hover:bg-primary hover:text-black hover:scale-105 bg-black/50 backdrop-blur-sm"
-                  data-testid="button-request-access"
-                >
-                  Request Access
+
+          <FadeIn delay={0.4} className="max-w-2xl bg-[rgba(255,255,255,0.02)] border border-[#D4AF37]/20 p-10 backdrop-blur-sm">
+            <h2 className="text-[#D4AF37] tracking-widest text-sm uppercase mb-8 font-bold">SUBMIT APPLICATION</h2>
+            {submitted ? (
+              <div className="text-center py-12">
+                <div className="text-[#D4AF37] text-xl mb-4">Application Received.</div>
+                <div className="text-white/50 text-sm">Your submission is under review by the executive team.</div>
+              </div>
+            ) : (
+              <form onSubmit={onSubmit} className="space-y-6">
+                <input required placeholder="Full Name" className="w-full bg-transparent border-b border-white/20 pb-3 text-white focus:outline-none focus:border-[#D4AF37] transition-colors rounded-none placeholder:text-white/30" />
+                <input required placeholder="Role / Institution (e.g., Investor, Partner, Founder)" className="w-full bg-transparent border-b border-white/20 pb-3 text-white focus:outline-none focus:border-[#D4AF37] transition-colors rounded-none placeholder:text-white/30" />
+                <input required type="email" placeholder="Direct Contact Email" className="w-full bg-transparent border-b border-white/20 pb-3 text-white focus:outline-none focus:border-[#D4AF37] transition-colors rounded-none placeholder:text-white/30" />
+                <textarea required placeholder="Why do you seek access? What do you bring to the ecosystem?" rows={4} minLength={50} className="w-full bg-transparent border-b border-white/20 pb-3 text-white focus:outline-none focus:border-[#D4AF37] transition-colors rounded-none placeholder:text-white/30 resize-none" />
+                
+                <button type="submit" className="w-full border border-[#D4AF37] text-[#D4AF37] py-4 uppercase tracking-[0.15em] text-sm hover:bg-[#D4AF37] hover:text-black transition-colors mt-4">
+                  SUBMIT FOR REVIEW
                 </button>
-              </DialogTrigger>
-              <DialogContent className="bg-[#050505] border border-primary/20 text-white sm:max-w-md rounded-none">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl text-primary font-light tracking-wide uppercase mb-2">Request Access</DialogTitle>
-                  <DialogDescription className="text-white/60">
-                    Submit your details for consideration.
-                  </DialogDescription>
-                </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-6 mt-4">
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-xs uppercase tracking-widest text-white/70">Name</label>
-                    <input 
-                      id="name" 
-                      required 
-                      className="w-full bg-transparent border-b border-white/20 pb-2 text-white focus:outline-none focus:border-primary transition-colors rounded-none"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-xs uppercase tracking-widest text-white/70">Email</label>
-                    <input 
-                      id="email" 
-                      type="email" 
-                      required 
-                      className="w-full bg-transparent border-b border-white/20 pb-2 text-white focus:outline-none focus:border-primary transition-colors rounded-none"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="purpose" className="text-xs uppercase tracking-widest text-white/70">Intent</label>
-                    <textarea 
-                      id="purpose" 
-                      required 
-                      rows={3}
-                      className="w-full bg-transparent border-b border-white/20 pb-2 text-white focus:outline-none focus:border-primary transition-colors rounded-none resize-none"
-                    />
-                  </div>
-                  <button 
-                    type="submit"
-                    className="w-full border border-primary text-primary py-3 uppercase tracking-widest text-sm transition-all duration-300 hover:bg-primary hover:text-black mt-4"
-                  >
-                    Submit Request
-                  </button>
-                </form>
-              </DialogContent>
-            </Dialog>
+              </form>
+            )}
+            <div className="text-center text-white/30 text-xs mt-8">
+              Membership to the inner circle is a responsibility. We prioritize alignment of vision and institutional impact.
+            </div>
           </FadeIn>
         </div>
       </div>

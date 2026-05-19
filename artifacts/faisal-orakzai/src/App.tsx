@@ -14,6 +14,8 @@ import Legacy from "@/pages/legacy";
 import Journal from "@/pages/journal";
 import InnerCircle from "@/pages/inner-circle";
 import Contact from "@/pages/contact";
+import AdminPage from "@/pages/admin";
+import MetricsTicker from "@/components/MetricsTicker";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,7 @@ function Router() {
       <Route path="/journal" component={Journal} />
       <Route path="/inner-circle" component={InnerCircle} />
       <Route path="/contact" component={Contact} />
+      <Route path="/admin" component={AdminPage} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -44,6 +47,7 @@ function App() {
             <main>
               <Router />
             </main>
+            <MetricsTicker />
             <Toaster />
           </div>
         </WouterRouter>

@@ -1,166 +1,109 @@
+import { useState } from "react";
 import { PageTransition, FadeIn } from "@/components/PageTransition";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
 import { FaWhatsapp } from "react-icons/fa";
 
-const contactSchema = z.object({
-  name: z.string().min(2, "Name is required"),
-  email: z.string().email("Valid email is required"),
-  subject: z.string().min(2, "Subject is required"),
-  message: z.string().min(20, "Message must be at least 20 characters"),
-});
-
 export default function Contact() {
-  const { toast } = useToast();
-  
-  const form = useForm<z.infer<typeof contactSchema>>({
-    resolver: zodResolver(contactSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    },
-  });
+  const [chatOpen, setChatOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [chatStatus, setChatStatus] = useState("Initializing secure channel... Processing your inquiry. Please describe your purpose.");
 
-  const onSubmit = (data: z.infer<typeof contactSchema>) => {
-    console.log("Contact submission:", data);
-    toast({
-      title: "Message Sent",
-      description: "We have received your message. You will be contacted shortly.",
-    });
-    form.reset();
-  };
+  const handleChatSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if(message.trim()) {
+      setChatStatus("Message routed to executive team.");
+      setMessage("");
+    }
+  }
 
   return (
     <PageTransition>
-      <div className="min-h-screen pt-32 pb-32 px-6 md:px-12 max-w-5xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24">
-        
-        <div className="flex-1">
+      <div className="bg-[#050505] min-h-screen text-white relative pb-32">
+        <div className="pt-40 px-8 lg:px-16 max-w-6xl mx-auto mb-20">
           <FadeIn>
-            <div className="text-primary text-[10px] tracking-[0.3em] uppercase mb-6 font-bold">
-              CONTACT
-            </div>
-            
-            <h1 className="text-4xl md:text-[52px] text-white font-bold leading-tight mb-8">
-              Collaboration requires clarity and alignment.
-            </h1>
-            
-            <p className="text-xl md:text-[20px] text-white/60 mb-16">
-              Start a Conversation
+            <h1 className="font-bold text-[64px] mb-4">EXECUTIVE OFFICE</h1>
+            <p className="text-white/50 text-lg max-w-2xl">
+              Direct lines to the Orakzai Group leadership. All communications are monitored and prioritized by the autonomous AI assistant.
             </p>
-            
-            <div className="space-y-8 mt-12">
-              <div>
-                <div className="text-xs uppercase tracking-widest text-white/40 mb-2">Direct</div>
-                <a href="mailto:imorakzai1122@gmail.com" className="text-primary text-lg md:text-xl tracking-wide hover:underline underline-offset-8 transition-all">
-                  imorakzai1122@gmail.com
-                </a>
+          </FadeIn>
+        </div>
+
+        <div className="px-8 lg:px-16 max-w-6xl mx-auto mb-32">
+          <FadeIn delay={0.2} className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { l: "OPERATIONS", v: "team@faisalorakzai.com" },
+              { l: "CHAIRMAN DIRECT", v: "chairman@faisalorakzai.com" },
+              { l: "WHATSAPP", v: "+92 336 7970004", isWa: true }
+            ].map((c, i) => (
+              <div key={i} className="border-t border-[#D4AF37]/30 pt-6">
+                <div className="text-[#D4AF37]/60 uppercase text-[10px] tracking-widest mb-2 flex items-center justify-between">
+                  {c.l}
+                  <div className="flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full bg-green-500"/><span className="text-green-500">VERIFIED</span></div>
+                </div>
+                {c.isWa ? (
+                  <a href="https://wa.me/923367970004" target="_blank" rel="noreferrer" className="text-white text-lg flex items-center gap-2 hover:text-[#D4AF37] transition-colors">
+                    <FaWhatsapp className="text-[#D4AF37]" /> {c.v}
+                  </a>
+                ) : (
+                  <div className="text-white text-lg">{c.v}</div>
+                )}
               </div>
-              
-              <div>
-                <div className="text-xs uppercase tracking-widest text-white/40 mb-2">Priority</div>
-                <a href="https://wa.me/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 text-white text-lg md:text-xl tracking-wide hover:text-primary transition-colors">
-                  <FaWhatsapp className="text-primary w-6 h-6" /> WhatsApp Contact
-                </a>
-              </div>
+            ))}
+          </FadeIn>
+        </div>
+
+        <div className="px-8 lg:px-16 max-w-2xl mx-auto">
+          <FadeIn delay={0.4}>
+            <div className="bg-[rgba(255,255,255,0.02)] border border-[#D4AF37]/20 p-10">
+              <h2 className="text-[#D4AF37] tracking-widest text-sm uppercase mb-8 font-bold">PRIORITY FORM</h2>
+              <form className="space-y-6" onSubmit={e => e.preventDefault()}>
+                <input required placeholder="Name" className="w-full bg-transparent border-b border-white/20 pb-3 text-white focus:outline-none focus:border-[#D4AF37] transition-colors rounded-none placeholder:text-white/30" />
+                <select className="w-full bg-transparent border-b border-white/20 pb-3 text-white/80 focus:outline-none focus:border-[#D4AF37] transition-colors rounded-none appearance-none">
+                  <option value="" disabled selected>Inquiry Type</option>
+                  <option className="bg-[#050505]">Investment</option>
+                  <option className="bg-[#050505]">Partnership</option>
+                  <option className="bg-[#050505]">Media</option>
+                  <option className="bg-[#050505]">Personal</option>
+                </select>
+                <input required type="email" placeholder="Contact Info (Email/Phone)" className="w-full bg-transparent border-b border-white/20 pb-3 text-white focus:outline-none focus:border-[#D4AF37] transition-colors rounded-none placeholder:text-white/30" />
+                <button type="submit" className="w-full border border-[#D4AF37] text-[#D4AF37] py-4 uppercase tracking-[0.15em] text-sm hover:bg-[#D4AF37] hover:text-black transition-colors mt-4">
+                  DISPATCH TO OFFICE
+                </button>
+              </form>
+            </div>
+            <div className="text-center mt-12">
+              <div className="text-white/50 text-sm mb-2">Office Hours: 24/7 Global Infrastructure Monitoring.</div>
+              <div className="text-white/30 text-xs">All incoming communications are analyzed by proprietary OrakzaiX intelligence protocols to ensure efficient resource allocation.</div>
             </div>
           </FadeIn>
         </div>
 
-        <div className="flex-1 lg:max-w-md">
-          <FadeIn delay={0.2}>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs uppercase tracking-widest text-white/70 font-normal">Name</FormLabel>
-                      <FormControl>
-                        <input 
-                          {...field} 
-                          className="w-full bg-transparent border-b border-white/20 pb-3 text-white focus:outline-none focus:border-primary transition-colors rounded-none placeholder:text-transparent"
-                          placeholder="Your name"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-destructive text-xs mt-1" />
-                    </FormItem>
-                  )}
+        {/* AI Assistant Widget */}
+        <div className="fixed bottom-12 right-6 z-50 flex flex-col items-end">
+          {chatOpen && (
+            <div className="w-[320px] bg-[#050505] border border-[#D4AF37]/30 mb-4 flex flex-col shadow-2xl animate-in slide-in-from-bottom-5">
+              <div className="bg-[#0a0a0a] border-b border-[#D4AF37]/30 p-3">
+                <div className="font-mono text-[#D4AF37] text-xs">ORAKZAI AI // ACTIVE</div>
+              </div>
+              <div className="p-4 h-32 font-mono text-sm text-white/70 overflow-y-auto">
+                <span className="animate-pulse">&gt; </span>{chatStatus}
+              </div>
+              <form onSubmit={handleChatSubmit} className="border-t border-[#D4AF37]/30 p-2 flex bg-[#0a0a0a]">
+                <input 
+                  value={message} onChange={e => setMessage(e.target.value)}
+                  className="w-full bg-transparent font-mono text-sm text-white focus:outline-none placeholder:text-white/30 px-2"
+                  placeholder=">_ Type your message..."
                 />
-                
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs uppercase tracking-widest text-white/70 font-normal">Email</FormLabel>
-                      <FormControl>
-                        <input 
-                          {...field} 
-                          type="email"
-                          className="w-full bg-transparent border-b border-white/20 pb-3 text-white focus:outline-none focus:border-primary transition-colors rounded-none placeholder:text-transparent"
-                          placeholder="Your email"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-destructive text-xs mt-1" />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="subject"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs uppercase tracking-widest text-white/70 font-normal">Subject</FormLabel>
-                      <FormControl>
-                        <input 
-                          {...field} 
-                          className="w-full bg-transparent border-b border-white/20 pb-3 text-white focus:outline-none focus:border-primary transition-colors rounded-none placeholder:text-transparent"
-                          placeholder="Subject"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-destructive text-xs mt-1" />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-xs uppercase tracking-widest text-white/70 font-normal">Message</FormLabel>
-                      <FormControl>
-                        <textarea 
-                          {...field} 
-                          rows={4}
-                          className="w-full bg-transparent border-b border-white/20 pb-3 text-white focus:outline-none focus:border-primary transition-colors rounded-none resize-none placeholder:text-transparent"
-                          placeholder="Your message"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-destructive text-xs mt-1" />
-                    </FormItem>
-                  )}
-                />
-                
-                <button 
-                  type="submit"
-                  className="w-full border border-primary text-primary py-4 uppercase tracking-[0.15em] text-sm transition-all duration-300 hover:bg-primary hover:text-black hover:scale-[1.02] mt-8"
-                  data-testid="button-submit-contact"
-                >
-                  Send Message
-                </button>
               </form>
-            </Form>
-          </FadeIn>
+            </div>
+          )}
+          <button 
+            onClick={() => setChatOpen(!chatOpen)}
+            className="w-14 h-14 rounded-full bg-[#0a0a0a] border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] hover:bg-[#D4AF37]/10 transition-colors shadow-lg"
+          >
+            <span className="font-mono text-xl">&gt;</span>
+          </button>
         </div>
-        
+
       </div>
     </PageTransition>
   );
