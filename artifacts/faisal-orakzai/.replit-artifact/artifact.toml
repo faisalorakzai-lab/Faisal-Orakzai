@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Faisal Orakzai — Sovereign Identity"
+version = "1.0.0"
+id = "artifacts/faisal-orakzai"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25996
+
+[services.development]
+run = "pnpm --filter @workspace/faisal-orakzai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/faisal-orakzai", "run", "build" ]
+publicDir = "artifacts/faisal-orakzai/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25996"
+BASE_PATH = "/"
