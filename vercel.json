@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "artifacts/api-server/src/index.ts"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "artifacts/faisal-orakzai/index.html"
+    }
+  ]
+}
