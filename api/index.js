@@ -1,31 +1,37 @@
-const express = require('express');
-  const cors = require('cors');
+// Vercel serverless function - pure Node.js, no external dependencies
+  module.exports = function handler(req, res) {
+    // CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Content-Type', 'application/json');
 
-  const app = express();
+    if (req.method === 'OPTIONS') {
+      res.statusCode = 200;
+      res.end();
+      return;
+    }
 
-  app.use(cors());
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+    const url = (req.url || '/').split('?')[0];
 
-  // Root - API info
-  app.get('/', (req, res) => {
-    res.json({
-      name: 'Faisal Orakzai API Server',
-      status: 'running',
-      version: '1.0.0',
-      endpoints: ['/api/healthz']
-    });
-  });
+    if (url === '/' || url === '') {
+      res.statusCode = 200;
+      res.end(JSON.stringify({
+        name: 'Faisal Orakzai API Server',
+        status: 'running',
+        version: '1.0.0',
+        endpoints: ['/api/healthz']
+      }));
+      return;
+    }
 
-  // Health check
-  app.get('/api/healthz', (req, res) => {
-    res.json({ status: 'ok' });
-  });
+    if (url === '/api/healthz' || url.startsWith('/api/healthz')) {
+      res.statusCode = 200;
+      res.end(JSON.stringify({ status: 'ok' }));
+      return;
+    }
 
-  // 404 fallback
-  app.use((req, res) => {
-    res.status(404).json({ error: 'Not found', path: req.path });
-  });
-
-  module.exports = app;
+    res.statusCode = 404;
+    res.end(JSON.stringify({ error: 'Not found', path: url }));
+  };
   
