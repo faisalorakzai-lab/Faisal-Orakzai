@@ -247,20 +247,17 @@
     const blocks = [
       {
         tag: "ORIGIN",
-        heading: "Born from the grind,
-not the classroom.",
+        heading: "Born from the grind,\nnot the classroom.",
         body: "Born in Pakistan. Business wasn't studied — it was lived. Every lesson came from real markets, real people, real consequences. The understanding of leverage, systems, and human behavior was forged through experience, not theory.",
       },
       {
         tag: "TRANSITION",
-        heading: "From local operations
-to scalable systems.",
+        heading: "From local operations\nto scalable systems.",
         body: "Real estate was the first domain. Then digital finance. The shift wasn't just industry — it was a complete architectural change in thinking. From survival to infrastructure. From reacting to the market to building the structures others operate within.",
       },
       {
         tag: "EVOLUTION",
-        heading: "The system became
-the mission.",
+        heading: "The system became\nthe mission.",
         body: "Over time, the focus expanded beyond business execution into system design itself. Automation, AI, digital frameworks, long-term structures. The goal was no longer to win in a market — it was to build the market.",
       },
     ];
