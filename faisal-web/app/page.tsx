@@ -445,7 +445,207 @@
     );
   }
 
-  // ─── Signal / CTA ─────────────────────────────────────────────
+
+    // ─── Press / Awards ───────────────────────────────────────────
+    function PressSection() {
+      const pressItems = [
+        {
+          badge: "AWARDS",
+          title: "Muhammad Faisal Orakzai Wins Stevie Gold Award for Technology Innovation 2026",
+          description:
+            "Pakistan's youngest blockchain architect, Muhammad Faisal Orakzai, receives the prestigious Stevie Gold Award — the first Pakistani to win in the Technology Innovation category, recognised for Orakzai Bond (OKBOND) on Polygon Layer-2 blockchain.",
+          source: "Stevie Awards",
+          date: "March 15, 2026",
+          readSourceUrl: "https://www.stevieawards.com",
+          seeAwardUrl: "https://drive.google.com/file/d/12YR3guJ8w-650RYqewhC-CuMUZKgubuk/view?usp=drivesdk",
+        },
+      ];
+
+      return (
+        <section
+          id="press"
+          style={{ position: "relative", padding: "160px 0", background: "#000", overflow: "hidden" }}
+        >
+          <div style={{
+            position: "absolute", inset: 0, pointerEvents: "none",
+            background: "radial-gradient(ellipse 50% 60% at 30% 50%, rgba(212,175,55,0.03) 0%, transparent 70%)",
+          }} />
+          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 60px" }}>
+            <Reveal style={{ marginBottom: 16 }}>
+              <div style={{
+                color: "rgba(212,175,55,0.35)", fontSize: 9,
+                letterSpacing: "0.7em", textTransform: "uppercase",
+                fontFamily: "monospace",
+              }}>
+                ⚡ AUTHORITATIVE SOURCE
+              </div>
+            </Reveal>
+            <Reveal delay={0.06} style={{ marginBottom: 72 }}>
+              <h2 style={{
+                fontSize: "clamp(44px, 5.5vw, 72px)",
+                fontWeight: 300, letterSpacing: "-0.03em",
+                color: "rgba(255,255,255,0.92)",
+              }}>
+                Press &amp; Recognition.
+              </h2>
+            </Reveal>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {pressItems.map((item, i) => (
+                <PressCard key={i} {...item} delay={i * 0.08} />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function PressCard({
+      badge, title, description, source, date, readSourceUrl, seeAwardUrl, delay,
+    }: {
+      badge: string;
+      title: string;
+      description: string;
+      source: string;
+      date: string;
+      readSourceUrl: string;
+      seeAwardUrl: string;
+      delay: number;
+    }) {
+      const [hov, setHov] = useState(false);
+
+      return (
+        <Reveal delay={delay}>
+          <motion.div
+            onMouseEnter={() => setHov(true)}
+            onMouseLeave={() => setHov(false)}
+            animate={{ borderColor: hov ? "rgba(212,175,55,0.25)" : "rgba(255,255,255,0.05)" }}
+            transition={{ duration: 0.35 }}
+            style={{
+              border: "1px solid rgba(255,255,255,0.05)",
+              padding: "48px 52px",
+              background: hov ? "rgba(212,175,55,0.02)" : "transparent",
+              transition: "background 0.35s",
+            }}
+          >
+            {/* Badge */}
+            <div style={{ marginBottom: 20 }}>
+              <span style={{
+                display: "inline-block",
+                border: "1px solid rgba(212,175,55,0.4)",
+                color: "#D4AF37",
+                fontSize: 9,
+                letterSpacing: "0.45em",
+                textTransform: "uppercase",
+                padding: "4px 12px",
+                fontFamily: "monospace",
+              }}>
+                {badge}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h3 style={{
+              fontSize: "clamp(22px, 2.4vw, 32px)",
+              fontWeight: 400,
+              color: "rgba(255,255,255,0.95)",
+              lineHeight: 1.2,
+              letterSpacing: "-0.02em",
+              marginBottom: 20,
+              maxWidth: 680,
+            }}>
+              {title}
+            </h3>
+
+            {/* Description */}
+            <p style={{
+              fontSize: 15,
+              color: "rgba(255,255,255,0.42)",
+              lineHeight: 1.75,
+              fontWeight: 300,
+              maxWidth: 640,
+              marginBottom: 32,
+            }}>
+              {description}
+            </p>
+
+            {/* Meta row */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 24,
+              flexWrap: "wrap",
+              marginBottom: 28,
+            }}>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 8,
+                color: "rgba(255,255,255,0.25)", fontSize: 12,
+              }}>
+                <span style={{ opacity: 0.5 }}>⊕</span>
+                <span style={{ letterSpacing: "0.06em" }}>{source}</span>
+              </div>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 8,
+                color: "rgba(255,255,255,0.25)", fontSize: 12,
+              }}>
+                <span style={{ opacity: 0.5 }}>◷</span>
+                <span style={{ letterSpacing: "0.06em" }}>{date}</span>
+              </div>
+            </div>
+
+            {/* Links */}
+            <div style={{ display: "flex", alignItems: "center", gap: 28, flexWrap: "wrap" }}>
+              <a
+                href={readSourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  color: "rgba(212,175,55,0.65)",
+                  fontSize: 11, letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  transition: "color 0.25s",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = "#D4AF37"; }}
+                onMouseLeave={e => { e.currentTarget.style.color = "rgba(212,175,55,0.65)"; }}
+              >
+                <span style={{ fontSize: 13 }}>↗</span> Read Source
+              </a>
+              <a
+                href={seeAwardUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  color: "rgba(255,255,255,0.35)",
+                  fontSize: 11, letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  padding: "8px 18px",
+                  transition: "all 0.25s",
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.color = "#fff";
+                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.4)";
+                  e.currentTarget.style.background = "rgba(212,175,55,0.06)";
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.color = "rgba(255,255,255,0.35)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+                  e.currentTarget.style.background = "transparent";
+                }}
+              >
+                <span style={{ fontSize: 13 }}>⊞</span> See Award
+              </a>
+            </div>
+          </motion.div>
+        </Reveal>
+      );
+    }
+
+    // ─── Signal / CTA ─────────────────────────────────────────────
   function SignalSection() {
     return (
       <section
